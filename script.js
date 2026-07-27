@@ -1,17 +1,33 @@
-console.log("MotoSim V0.2.0-a2.1");
+/*
+====================================
+MotoSim
+Main Script
+Version 0.2.0-a3
+====================================
+*/
 
+
+console.log("MotoSim V0.2.0-a3");
+
+
+
+/*
+==============================
+ETAT SIMULATION
+==============================
+*/
 
 
 let rpm = 1200;
 
 let speed = 0;
 
-let gear = "N";
 
 
 let gas = false;
 
 let brake = false;
+
 
 
 let shifterUp = false;
@@ -25,86 +41,35 @@ const maxRPM = 14000;
 
 
 
-// GAZ
+
+/*
+==============================
+GAZ
+==============================
+*/
 
 
-document.getElementById("gas").onpointerdown=()=>{
-
-gas=true;
-
-};
+const gasButton = document.getElementById("gas");
 
 
-document.getElementById("gas").onpointerup=()=>{
+gasButton.onpointerdown = () => {
 
-gas=false;
-
-};
-
-
-
-
-
-// FREIN
-
-
-document.getElementById("brake").onpointerdown=()=>{
-
-brake=true;
+    gas = true;
 
 };
 
 
-document.getElementById("brake").onpointerup=()=>{
+gasButton.onpointerup = () => {
 
-brake=false;
+    gas = false;
 
 };
 
 
 
+gasButton.onpointerleave = () => {
 
-// RAPPORT +
-
-
-document.getElementById("plus").onclick=()=>{
-
-
-if(gear==="N")
-
-gear=1;
-
-
-else if(gear<6)
-
-gear++;
-
-
-};
-
-
-
-
-// RAPPORT -
-
-
-document.getElementById("minus").onclick=()=>{
-
-
-if(gear==="N")
-
-return;
-
-
-if(gear>1)
-
-gear--;
-
-
-else
-
-gear="N";
-
+    gas = false;
 
 };
 
@@ -112,143 +77,261 @@ gear="N";
 
 
 
-// SHIFTERS
+/*
+==============================
+FREIN
+==============================
+*/
 
 
-const up=document.getElementById("shiftUp");
-
-const down=document.getElementById("shiftDown");
+const brakeButton = document.getElementById("brake");
 
 
+brakeButton.onpointerdown = () => {
 
-up.onclick=()=>{
+    brake = true;
+
+};
 
 
-shifterUp=!shifterUp;
+brakeButton.onpointerup = () => {
 
-
-updateShiftButton(
-up,
-shifterUp,
-"SHIFTER UP"
-);
-
+    brake = false;
 
 };
 
 
 
-down.onclick=()=>{
+brakeButton.onpointerleave = () => {
 
-
-shifterDown=!shifterDown;
-
-
-updateShiftButton(
-down,
-shifterDown,
-"SHIFTER DOWN"
-);
-
+    brake = false;
 
 };
 
 
 
 
-function updateShiftButton(btn,state,text){
+
+/*
+==============================
+BOITE DE VITESSE
+==============================
+*/
 
 
-if(state){
+document.getElementById("plus").onclick = () => {
 
-btn.innerHTML="🟢 "+text+" ON";
 
-btn.className="on";
+    shiftUp();
+
+
+};
+
+
+
+document.getElementById("minus").onclick = () => {
+
+
+    shiftDown();
+
+
+};
+
+
+
+
+
+
+
+/*
+==============================
+SHIFTER UP
+==============================
+*/
+
+
+const shiftUpButton =
+document.getElementById("shiftUp");
+
+
+
+shiftUpButton.onclick = () => {
+
+
+    shifterUp = !shifterUp;
+
+
+    updateShiftButton(
+        shiftUpButton,
+        shifterUp,
+        "SHIFTER UP"
+    );
+
+
+};
+
+
+
+
+
+
+
+/*
+==============================
+SHIFTER DOWN
+==============================
+*/
+
+
+const shiftDownButton =
+document.getElementById("shiftDown");
+
+
+
+shiftDownButton.onclick = () => {
+
+
+    shifterDown = !shifterDown;
+
+
+    updateShiftButton(
+        shiftDownButton,
+        shifterDown,
+        "SHIFTER DOWN"
+    );
+
+
+};
+
+
+
+
+
+
+
+function updateShiftButton(button,state,text){
+
+
+
+    if(state){
+
+
+        button.innerHTML =
+        "🟢 " + text + " ON";
+
+
+        button.className="on";
+
+
+    }
+
+    else{
+
+
+        button.innerHTML =
+        "🔴 " + text + " OFF";
+
+
+        button.className="off";
+
+
+    }
 
 
 }
 
-else{
-
-
-btn.innerHTML="🔴 "+text+" OFF";
-
-btn.className="off";
-
-
-}
-
-
-}
 
 
 
 
 
 
-// SIMULATION
+/*
+==============================
+BOUCLE SIMULATION
+==============================
+*/
 
 
 setInterval(()=>{
 
 
-if(gas){
+    /*
+    ==========================
+    RPM
+    ==========================
+    */
 
 
-rpm+=400;
+    if(gas){
 
 
-}
+        rpm += 400;
 
 
-else{
+    }
+
+    else{
 
 
-rpm-=250;
+        rpm -= 250;
 
 
-}
-
-
-
-
-if(gear!=="N"){
-
-
-if(gas)
-
-speed+=0.5;
-
-
-}
+    }
 
 
 
-if(brake)
+    if(rpm > maxRPM)
 
-speed-=1;
-
-
-
-if(speed<0)
-
-speed=0;
+        rpm=maxRPM;
 
 
 
-if(rpm>maxRPM)
+    if(rpm < 1200)
 
-rpm=maxRPM;
-
-
-if(rpm<1200)
-
-rpm=1200;
+        rpm=1200;
 
 
 
 
-update();
+
+    /*
+    ==========================
+    VITESSE
+    ==========================
+    */
+
+
+    if(getGearDisplay() !== "N"){
+
+
+        if(gas)
+
+            speed +=0.5;
+
+
+    }
+
+
+
+
+    if(brake)
+
+        speed -=1;
+
+
+
+
+    if(speed < 0)
+
+        speed=0;
+
+
+
+
+
+    update();
+
 
 
 },50);
@@ -259,30 +342,43 @@ update();
 
 
 
+
+
+/*
+==============================
+AFFICHAGE
+==============================
+*/
+
+
 function update(){
 
 
-document.getElementById("rpm").innerHTML=
 
-Math.round(rpm);
+    document.getElementById("rpm").innerHTML =
 
-
-
-document.getElementById("speed").innerHTML=
-
-Math.round(speed);
+    Math.round(rpm);
 
 
 
-document.getElementById("gear").innerHTML=
 
-gear;
+    document.getElementById("speed").innerHTML =
+
+    Math.round(speed);
 
 
 
-document.getElementById("status").innerHTML=
 
-"STATUS OK";
+    document.getElementById("gear").innerHTML =
+
+    getGearDisplay();
+
+
+
+
+    document.getElementById("status").innerHTML =
+
+    "STATUS OK";
 
 
 }
