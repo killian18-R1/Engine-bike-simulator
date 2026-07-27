@@ -1,39 +1,24 @@
-console.log("MotoSim V0.1.0-a6");
+console.log("MotoSim A7");
 
 
-// =======================
-// PARAMETRES MOTO
-// =======================
+// PARAMETRES
 
 
-const bike = {
-
+const bike={
 
 mass:250,
 
-
 maxTorque:112,
-
 
 idleRPM:1200,
 
-
-maxRPM:14000,
-
-
-wheelRadius:0.31,
-
-
-finalDrive:2.9
-
+maxRPM:14000
 
 };
 
 
 
-// rapports
-
-const gearbox = {
+const ratios={
 
 1:2.6,
 
@@ -51,12 +36,6 @@ const gearbox = {
 
 
 
-
-// =======================
-// VARIABLES
-// =======================
-
-
 let gear="N";
 
 
@@ -72,74 +51,85 @@ let gas=false;
 let brake=false;
 
 
+let shifterUp=false;
 
-// =======================
+
+let shifterDown=false;
+
+
+let cutTimer=0;
+
+
+
+
+
 // COMMANDES
-// =======================
 
 
-
-let gasButton=document.getElementById("gas");
-
-
-gasButton.onpointerdown=function(){
-
-gas=true;
-
-};
+gasBtn=document.getElementById("gas");
 
 
-gasButton.onpointerup=function(){
+gasBtn.onpointerdown=()=>gas=true;
 
-gas=false;
+gasBtn.onpointerup=()=>gas=false;
 
-};
-
-
-gasButton.onpointerleave=function(){
-
-gas=false;
-
-};
+gasBtn.onpointerleave=()=>gas=false;
 
 
 
 
-let brakeButton=document.getElementById("brake");
+
+brakeBtn=document.getElementById("brake");
 
 
-brakeButton.onpointerdown=function(){
+brakeBtn.onpointerdown=()=>brake=true;
 
-brake=true;
+brakeBtn.onpointerup=()=>brake=false;
 
-};
-
-
-brakeButton.onpointerup=function(){
-
-brake=false;
-
-};
+brakeBtn.onpointerleave=()=>brake=false;
 
 
-brakeButton.onpointerleave=function(){
 
-brake=false;
+
+
+// SHIFTERS
+
+
+document.getElementById("shiftUp").onclick=function(){
+
+shifterUp=!shifterUp;
+
+this.innerHTML=
+"SHIFTER UP "+
+(shifterUp?"ON":"OFF");
 
 };
 
 
 
 
-// =======================
-// RAPPORTS
-// =======================
+document.getElementById("shiftDown").onclick=function(){
 
+shifterDown=!shifterDown;
+
+this.innerHTML=
+"SHIFTER DOWN "+
+(shifterDown?"ON":"OFF");
+
+};
+
+
+
+
+
+// RAPPORT +
 
 document.getElementById("plus").onclick=function(){
 
 
-if(gas)return;
+if(gas && !shifterUp)
+return;
+
 
 
 if(gear==="N")
@@ -153,41 +143,48 @@ gear++;
 
 
 
-rpm-=2000;
+if(shifterUp){
 
+cutTimer=5;
 
-if(rpm<1200)
+}
 
-rpm=1200;
 
 
 };
 
+
+
+//
+// RAPPORT -
+//
 
 
 document.getElementById("minus").onclick=function(){
 
 
-if(gas)return;
+
+if(gear==="N")
+return;
 
 
-if(gear===1)
 
-gear="N";
-
-
-else if(gear>1)
+if(gear>1)
 
 gear--;
 
 
+else
 
-rpm-=1500;
+gear="N";
 
 
-if(rpm<1200)
 
-rpm=1200;
+if(shifterDown){
+
+rpm+=2500;
+
+}
 
 
 };
@@ -197,35 +194,27 @@ rpm=1200;
 
 
 
-// =======================
+
 // PHYSIQUE
-// =======================
 
 
-setInterval(function(){
+setInterval(()=>{
 
 
-
-let acceleration=0;
-
-
-
-// Couple moteur selon RPM
 
 let torque=0;
 
 
 
-if(gas){
+if(gas && cutTimer<=0){
 
 
-let rpmFactor=rpm/bike.maxRPM;
+let powerFactor =
+1-(rpm/14000)*0.4;
 
 
-torque=
-bike.maxTorque *
-(1-rpmFactor*0.5);
-
+torque =
+bike.maxTorque*powerFactor;
 
 
 }
@@ -233,22 +222,28 @@ bike.maxTorque *
 
 
 
-// Force moteur
+if(cutTimer>0){
+
+cutTimer--;
+
+}
+
+
+
+
+
+// acceleration
 
 
 if(gear!=="N"){
 
 
 let force =
-torque *
-gearbox[gear] *
-bike.finalDrive;
+torque*ratios[gear];
 
 
-
-acceleration =
-force / bike.mass / 3;
-
+speed +=
+(force/bike.mass)*0.05;
 
 
 }
@@ -257,46 +252,22 @@ force / bike.mass / 3;
 
 
 
-// résistance air
+// air
 
 
-let airResistance =
-0.00035 *
-speed *
-speed;
-
+speed -=
+speed*0.002;
 
 
 
 // frein
 
 
-if(brake){
+if(brake)
 
-acceleration-=5;
-
-}
+speed-=1;
 
 
-
-
-// moteur
-
-
-speed += acceleration;
-
-
-
-
-// résistance
-
-
-speed -= airResistance;
-
-
-
-
-// vitesse négative interdite
 
 
 if(speed<0)
@@ -307,22 +278,21 @@ speed=0;
 
 
 
-
-// calcul RPM mécanique
+// RPM MECANIQUE
 
 
 if(gear!=="N"){
 
 
 rpm =
-1200 +
-(speed /
-(gearbox[gear]*2))
-*100;
-
+1200+
+speed*
+ratios[gear]*
+35;
 
 
 }
+
 
 else{
 
@@ -337,8 +307,6 @@ rpm-=150;
 
 
 }
-
-
 
 
 
@@ -358,8 +326,8 @@ rpm=14000;
 
 
 
-
 update();
+
 
 
 },50);
@@ -384,12 +352,18 @@ document.getElementById("gear").innerHTML=
 gear;
 
 
-}
-
-
 
 document.getElementById("status").innerHTML=
-"STATUS : OK";
+
+"STATUS OK | UP:"+
+(shifterUp?"ON":"OFF")
++
+" DOWN:"+
+(shifterDown?"ON":"OFF");
+
+
+}
+
 
 
 update();
