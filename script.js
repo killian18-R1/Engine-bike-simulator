@@ -255,18 +255,7 @@ setInterval(()=>{
     */
 
 
-    if(gas){
-
-
-        rpm += 400;
-
-
-    }
-
-    else{
-
-
-        rpm -= 250;
+  updateEnginePhysics();
 
 
     }
