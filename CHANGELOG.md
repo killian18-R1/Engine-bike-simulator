@@ -2,6 +2,33 @@
 
 Toutes les évolutions du projet MotoSim sont consignées ici.
 
+# Version 0.1.0-a3
+Date : 27/07/2026
+
+
+## Corrections
+
+- Correction inversion des rapports
+- 1ère courte
+- 6ème longue
+
+
+## Ajouts
+
+- Démultiplication différente par rapport
+- Blocage passage vitesse gaz ouvert
+- Affichage G1 à G6
+
+
+## Bugs connus
+
+- Pas encore de couple moteur réel
+- Pas encore d'embrayage
+- Pas encore de perte de régime lors du passage de vitesse
+
+---
+
+
 # Version 0.1.0-a2
 Date : 27/07/2026
 
