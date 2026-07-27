@@ -2,9 +2,38 @@
 
 Toutes les évolutions du projet MotoSim sont consignées ici.
 
-# Version 0.1.0-a4.1
+# Version 0.1.0-a5
 Date : 28/07/2026
 
+
+## Ajouts
+
+- Gestion du rupteur moteur
+- Limitation vitesse par rapport
+- Comportement boîte amélioré
+- Chute de régime au changement de rapport
+- Accélération plus progressive
+
+
+## Corrections
+
+- Conservation affichage simple des rapports :
+  N / 1 / 2 / 3 / 4 / 5 / 6
+- Correction vitesse infinie
+
+
+## Bugs connus
+
+- Pas encore d'embrayage
+- Pas encore de couple moteur réel
+- Pas encore de frein moteur réaliste
+- Pas encore de compteur analogique
+
+
+---
+
+# Version 0.1.0-a4.1
+Date : 28/07/2026
 
 ## Correction
 
