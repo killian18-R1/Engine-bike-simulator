@@ -1,1 +1,52 @@
+{
+    "id":"yamaha_r1_2024",
 
+    "name":"Yamaha R1",
+
+    "year":2024,
+
+    "mass":202,
+
+    "riderMass":85,
+
+    "wheelRadius":0.318,
+
+    "engine":{
+
+        "power":200,
+
+        "torque":112,
+
+        "idleRPM":1200,
+
+        "redline":14000,
+
+        "limiter":14200
+
+    },
+
+    "gearbox":{
+
+        "primary":1.681,
+
+        "final":2.647,
+
+        "ratios":[
+
+            2.571,
+
+            2.000,
+
+            1.619,
+
+            1.381,
+
+            1.190,
+
+            1.037
+
+        ]
+
+    }
+
+}
