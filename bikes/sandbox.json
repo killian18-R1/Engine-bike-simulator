@@ -1,1 +1,50 @@
+{
+    "id":"sandbox",
 
+    "name":"Sandbox",
+
+    "mass":180,
+
+    "riderMass":80,
+
+    "wheelRadius":0.320,
+
+    "engine":{
+
+        "power":300,
+
+        "torque":250,
+
+        "idleRPM":1000,
+
+        "redline":18000,
+
+        "limiter":18500
+
+    },
+
+    "gearbox":{
+
+        "primary":1.6,
+
+        "final":3.0,
+
+        "ratios":[
+
+            3,
+
+            2.2,
+
+            1.7,
+
+            1.4,
+
+            1.2,
+
+            1
+
+        ]
+
+    }
+
+}
