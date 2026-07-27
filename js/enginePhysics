@@ -1,0 +1,143 @@
+/*
+====================================
+MotoSim
+Engine Physics
+Version 0.2.0-a5
+====================================
+*/
+
+
+const enginePhysics = {
+
+
+    inertia:0.08,
+
+    drag:0.015,
+
+
+    torqueCurve(rpm){
+
+
+        if(rpm < 3000)
+
+            return 70;
+
+
+        if(rpm < 8000)
+
+            return 112;
+
+
+        if(rpm < 12000)
+
+            return 100;
+
+
+        return 80;
+
+
+    }
+
+
+
+};
+
+
+
+function updateEnginePhysics(){
+
+
+
+    let throttle = gas ? 1 : 0;
+
+
+
+    let torque =
+
+    enginePhysics.torqueCurve(rpm)
+
+    *
+
+    throttle;
+
+
+
+    let ratio = getGearRatio();
+
+
+
+    /*
+    Pas de rapport = moteur libre
+    */
+
+
+    if(ratio===0){
+
+
+        rpm +=
+
+        torque *
+
+        0.5;
+
+
+    }
+
+
+    else{
+
+
+        /*
+        Charge transmission
+        */
+
+
+        let load =
+
+        speed *
+
+        ratio *
+
+        0.15;
+
+
+
+        rpm +=
+
+        (torque - load)
+
+        /
+
+        enginePhysics.inertia;
+
+
+    }
+
+
+
+
+
+    /*
+    frein moteur
+    */
+
+
+    if(!gas)
+
+        rpm -= 300;
+
+
+
+
+    if(rpm < 1200)
+
+        rpm=1200;
+
+
+
+    if(rpm > 14000)
+
+        rpm=14000;
+
+
+}
