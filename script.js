@@ -1,133 +1,43 @@
-console.log("MotoSim V0.1.0-a7.2");
-
-
-// ==========================
-// PARAMETRES MOTO
-// ==========================
-
-
-const bike = {
-
-mass:250,
-
-maxTorque:112,
-
-idleRPM:1200,
-
-maxRPM:14000,
-
-wheelRadius:0.34,
-
-finalDrive:2.8
-
-};
+console.log("MotoSim V0.2.0-a2.1");
 
 
 
-// Rapports boîte R1 simplifiés
+let rpm = 1200;
 
-const gearbox = {
+let speed = 0;
 
-1:2.6,
+let gear = "N";
 
-2:2.0,
 
-3:1.6,
+let gas = false;
 
-4:1.3,
+let brake = false;
 
-5:1.1,
 
-6:0.95
+let shifterUp = false;
+
+let shifterDown = false;
+
+
+
+const maxRPM = 14000;
+
+
+
+
+// GAZ
+
+
+document.getElementById("gas").onpointerdown=()=>{
+
+gas=true;
 
 };
 
 
+document.getElementById("gas").onpointerup=()=>{
 
-
-// ==========================
-// VARIABLES
-// ==========================
-
-
-let gear="N";
-
-let speed=0; // km/h
-
-let rpm=1200;
-
-
-let gas=false;
-
-let brake=false;
-
-
-let shifterUp=false;
-
-let shifterDown=false;
-
-
-let shiftDelay=0;
-
-
-
-
-
-// ==========================
-// COMMANDES
-// ==========================
-
-
-const gasBtn=document.getElementById("gas");
-
-gasBtn.onpointerdown=()=>gas=true;
-
-gasBtn.onpointerup=()=>gas=false;
-
-gasBtn.onpointerleave=()=>gas=false;
-
-
-
-
-
-const brakeBtn=document.getElementById("brake");
-
-brakeBtn.onpointerdown=()=>brake=true;
-
-brakeBtn.onpointerup=()=>brake=false;
-
-brakeBtn.onpointerleave=()=>brake=false;
-
-
-
-
-
-// ==========================
-// SHIFTERS
-// ==========================
-
-
-const upBtn=document.getElementById("shiftUp");
-
-const downBtn=document.getElementById("shiftDown");
-
-
-
-upBtn.onclick=()=>{
-
-shifterUp=!shifterUp;
-
-updateButtons();
-
-};
-
-
-
-downBtn.onclick=()=>{
-
-shifterDown=!shifterDown;
-
-updateButtons();
+gas=false;
 
 };
 
@@ -135,123 +45,65 @@ updateButtons();
 
 
 
-function updateButtons(){
+// FREIN
 
 
-upBtn.innerHTML =
-shifterUp ?
-"🟢 SHIFTER UP ON" :
-"🔴 SHIFTER UP OFF";
+document.getElementById("brake").onpointerdown=()=>{
+
+brake=true;
+
+};
 
 
-downBtn.innerHTML =
-shifterDown ?
-"🟢 SHIFTER DOWN ON" :
-"🔴 SHIFTER DOWN OFF";
+document.getElementById("brake").onpointerup=()=>{
 
+brake=false;
 
-
-upBtn.className =
-shifterUp ?
-"shifter-on" :
-"shifter-off";
-
-
-downBtn.className =
-shifterDown ?
-"shifter-on" :
-"shifter-off";
-
-
-}
+};
 
 
 
 
+// RAPPORT +
 
 
-// ==========================
-// BOITE
-// ==========================
+document.getElementById("plus").onclick=()=>{
 
 
-
-document.getElementById("plus").onclick=function(){
-
-
-if(gear==="N"){
+if(gear==="N")
 
 gear=1;
 
-return;
 
-}
-
-
-
-if(gear>=6)
-
-return;
-
-
-
-if(gas && !shifterUp)
-
-return;
-
-
-
-// quickshift
-
-if(shifterUp && gas){
-
-shiftDelay=2;
-
-}
-
-
+else if(gear<6)
 
 gear++;
 
 
-
 };
 
 
 
 
+// RAPPORT -
 
 
-
-document.getElementById("minus").onclick=function(){
+document.getElementById("minus").onclick=()=>{
 
 
 if(gear==="N")
-return;
-
-
-
-if(gear<=1){
-
-gear="N";
 
 return;
 
-}
 
+if(gear>1)
 
 gear--;
 
 
+else
 
-// blipper
-
-if(shifterDown){
-
-rpm+=2500;
-
-}
-
+gear="N";
 
 
 };
@@ -260,185 +112,121 @@ rpm+=2500;
 
 
 
+// SHIFTERS
+
+
+const up=document.getElementById("shiftUp");
+
+const down=document.getElementById("shiftDown");
 
 
 
-// ==========================
-// PHYSIQUE
-// ==========================
+up.onclick=()=>{
 
+
+shifterUp=!shifterUp;
+
+
+updateShiftButton(
+up,
+shifterUp,
+"SHIFTER UP"
+);
+
+
+};
+
+
+
+down.onclick=()=>{
+
+
+shifterDown=!shifterDown;
+
+
+updateShiftButton(
+down,
+shifterDown,
+"SHIFTER DOWN"
+);
+
+
+};
+
+
+
+
+function updateShiftButton(btn,state,text){
+
+
+if(state){
+
+btn.innerHTML="🟢 "+text+" ON";
+
+btn.className="on";
+
+
+}
+
+else{
+
+
+btn.innerHTML="🔴 "+text+" OFF";
+
+btn.className="off";
+
+
+}
+
+
+}
+
+
+
+
+
+
+// SIMULATION
 
 
 setInterval(()=>{
 
 
-
-// vitesse roue
-
-
-let wheelRPM =
-(speed/3.6)
-/
-(2*Math.PI*bike.wheelRadius)
-*
-60;
+if(gas){
 
 
-
-
-// régime mécanique moteur
-
-
-if(gear!=="N"){
-
-
-rpm =
-wheelRPM *
-gearbox[gear] *
-bike.finalDrive;
-
+rpm+=400;
 
 
 }
+
+
 else{
+
+
+rpm-=250;
+
+
+}
+
+
+
+
+if(gear!=="N"){
 
 
 if(gas)
 
-rpm+=400;
-
-else
-
-rpm-=150;
+speed+=0.5;
 
 
 }
 
 
 
+if(brake)
 
-
-// ralenti
-
-if(rpm<bike.idleRPM)
-
-rpm=bike.idleRPM;
-
-
-
-
-
-
-// rupteur
-
-
-if(rpm>bike.maxRPM){
-
-rpm=bike.maxRPM;
-
-}
-
-
-
-
-
-// couple moteur
-
-
-let torque=0;
-
-
-
-if(gas && shiftDelay===0){
-
-
-
-let rpmRatio =
-rpm/bike.maxRPM;
-
-
-
-// courbe simplifiée
-
-torque =
-bike.maxTorque *
-(
-1-
-Math.abs(rpmRatio-0.65)
-);
-
-
-
-}
-
-
-
-
-
-
-// accélération
-
-
-if(gear!=="N"){
-
-
-
-let wheelTorque =
-torque *
-gearbox[gear] *
-bike.finalDrive;
-
-
-
-let acceleration =
-wheelTorque /
-bike.mass;
-
-
-
-speed +=
-acceleration*0.15;
-
-
-
-}
-
-
-
-
-
-
-// coupure shifter
-
-
-if(shiftDelay>0){
-
-shiftDelay--;
-
-}
-
-
-
-
-
-
-// frein
-
-
-if(brake){
-
-speed-=4;
-
-}
-
-
-
-
-// résistance air
-
-
-speed -=
-speed*0.002;
+speed-=1;
 
 
 
@@ -448,9 +236,19 @@ speed=0;
 
 
 
+if(rpm>maxRPM)
+
+rpm=maxRPM;
+
+
+if(rpm<1200)
+
+rpm=1200;
+
+
+
 
 update();
-
 
 
 },50);
@@ -461,35 +259,30 @@ update();
 
 
 
-
 function update(){
 
 
-document.getElementById("speed").innerHTML=
-Math.round(speed);
-
-
 document.getElementById("rpm").innerHTML=
+
 Math.round(rpm);
 
 
+
+document.getElementById("speed").innerHTML=
+
+Math.round(speed);
+
+
+
 document.getElementById("gear").innerHTML=
+
 gear;
+
 
 
 document.getElementById("status").innerHTML=
 
-"STATUS OK | UP:"+
-(shifterUp?"ON":"OFF")
-+
-" DOWN:"+
-(shifterDown?"ON":"OFF");
+"STATUS OK";
 
 
 }
-
-
-
-updateButtons();
-
-update();
