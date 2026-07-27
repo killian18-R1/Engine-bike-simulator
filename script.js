@@ -61,6 +61,13 @@ document.getElementById("gas").ontouchend = function(){
 document.getElementById("plus").onclick=function(){
 
 
+if(gas){
+
+    return;
+
+}
+
+
     if(gear === "N"){
 
         gear = 1;
@@ -84,6 +91,13 @@ document.getElementById("plus").onclick=function(){
 // Passage vitesse -
 
 document.getElementById("minus").onclick=function(){
+
+
+if(gas){
+
+    return;
+
+}
 
 
     if(gear === 1){
