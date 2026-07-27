@@ -2,12 +2,12 @@
 ====================================
 MotoSim
 Main Script
-Version 0.2.0-a3
+Version 0.2.0-a4.1
 ====================================
 */
 
 
-console.log("MotoSim V0.2.0-a3");
+console.log("MotoSim V0.2.0-a4.1");
 
 
 
@@ -21,7 +21,6 @@ ETAT SIMULATION
 let rpm = 1200;
 
 let speed = 0;
-
 
 
 let gas = false;
@@ -49,7 +48,9 @@ GAZ
 */
 
 
-const gasButton = document.getElementById("gas");
+const gasButton =
+document.getElementById("gas");
+
 
 
 gasButton.onpointerdown = () => {
@@ -57,6 +58,7 @@ gasButton.onpointerdown = () => {
     gas = true;
 
 };
+
 
 
 gasButton.onpointerup = () => {
@@ -84,7 +86,9 @@ FREIN
 */
 
 
-const brakeButton = document.getElementById("brake");
+const brakeButton =
+document.getElementById("brake");
+
 
 
 brakeButton.onpointerdown = () => {
@@ -92,6 +96,7 @@ brakeButton.onpointerdown = () => {
     brake = true;
 
 };
+
 
 
 brakeButton.onpointerup = () => {
@@ -114,30 +119,25 @@ brakeButton.onpointerleave = () => {
 
 /*
 ==============================
-BOITE DE VITESSE
+BOITE
 ==============================
 */
 
 
 document.getElementById("plus").onclick = () => {
 
-
     shiftUp();
 
-
 };
+
 
 
 
 document.getElementById("minus").onclick = () => {
 
-
     shiftDown();
 
-
 };
-
-
 
 
 
@@ -174,8 +174,6 @@ shiftUpButton.onclick = () => {
 
 
 
-
-
 /*
 ==============================
 SHIFTER DOWN
@@ -207,10 +205,7 @@ shiftDownButton.onclick = () => {
 
 
 
-
-
 function updateShiftButton(button,state,text){
-
 
 
     if(state){
@@ -237,10 +232,7 @@ function updateShiftButton(button,state,text){
 
     }
 
-
 }
-
-
 
 
 
@@ -248,7 +240,7 @@ function updateShiftButton(button,state,text){
 
 /*
 ==============================
-BOUCLE SIMULATION
+SIMULATION
 ==============================
 */
 
@@ -258,7 +250,7 @@ setInterval(()=>{
 
     /*
     ==========================
-    RPM
+    Gestion RPM moteur
     ==========================
     */
 
@@ -281,15 +273,17 @@ setInterval(()=>{
 
 
 
+
     if(rpm > maxRPM)
 
-        rpm=maxRPM;
+        rpm = maxRPM;
+
 
 
 
     if(rpm < 1200)
 
-        rpm=1200;
+        rpm = 1200;
 
 
 
@@ -297,34 +291,37 @@ setInterval(()=>{
 
     /*
     ==========================
-    VITESSE
+    Transmission
     ==========================
     */
 
 
-    if(getGearDisplay() !== "N"){
+    speed = calculateSpeed(rpm);
 
 
-        if(gas)
 
-            speed +=0.5;
+
+
+    /*
+    ==========================
+    Frein
+    ==========================
+    */
+
+
+    if(brake){
+
+
+        speed -= 2;
 
 
     }
 
 
 
-
-    if(brake)
-
-        speed -=1;
-
-
-
-
     if(speed < 0)
 
-        speed=0;
+        speed = 0;
 
 
 
@@ -335,7 +332,6 @@ setInterval(()=>{
 
 
 },50);
-
 
 
 
