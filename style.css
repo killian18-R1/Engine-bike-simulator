@@ -13,6 +13,7 @@ text-align:center;
 }
 
 
+
 h1 {
 
 margin-top:20px;
@@ -25,9 +26,9 @@ margin-top:20px;
 
 color:#00ff00;
 
-font-size:14px;
+margin:10px;
 
-margin-top:10px;
+font-size:14px;
 
 }
 
@@ -73,9 +74,9 @@ justify-content:center;
 
 .label {
 
-font-size:18px;
-
 color:#aaa;
+
+font-size:18px;
 
 }
 
@@ -109,8 +110,6 @@ flex-direction:column;
 
 gap:10px;
 
-align-items:center;
-
 }
 
 
@@ -133,8 +132,6 @@ justify-content:center;
 
 font-size:60px;
 
-font-weight:bold;
-
 }
 
 
@@ -151,14 +148,6 @@ font-size:30px;
 
 
 
-.controls {
-
-margin-top:40px;
-
-}
-
-
-
 .controls button {
 
 width:140px;
@@ -168,8 +157,6 @@ height:60px;
 margin:20px;
 
 font-size:22px;
-
-font-weight:bold;
 
 border-radius:12px;
 
@@ -197,6 +184,52 @@ color:white;
 
 
 
+.assist {
+
+margin-top:15px;
+
+}
+
+
+
+.assist button {
+
+display:block;
+
+margin:10px auto;
+
+width:260px;
+
+height:50px;
+
+font-size:17px;
+
+border-radius:10px;
+
+color:white;
+
+border:none;
+
+}
+
+
+
+.shifter-off {
+
+background:#990000;
+
+}
+
+
+
+.shifter-on {
+
+background:#008000;
+
+}
+
+
+
 #version {
 
 position:fixed;
@@ -205,33 +238,8 @@ bottom:10px;
 
 right:15px;
 
-font-size:14px;
-
 color:#777;
 
-}
-
-.assist {
-
-margin-top:20px;
-
-}
-
-
-.assist button {
-
-width:220px;
-
-height:45px;
-
-margin:10px;
-
-font-size:16px;
-
-border-radius:10px;
-
-background:#333;
-
-color:white;
+font-size:14px;
 
 }
