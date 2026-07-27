@@ -255,7 +255,11 @@ setInterval(()=>{
     */
 
 
-  updateEnginePhysics();
+if(typeof updateEnginePhysics === "function"){
+
+    updateEnginePhysics();
+
+}
 
 
     }
