@@ -18,6 +18,8 @@ const gameState = {
 
         throttle: 0,
 
+        torque:0
+
         running: true
 
     },
