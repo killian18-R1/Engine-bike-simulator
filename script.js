@@ -184,22 +184,25 @@ if(rpm > maxRPM){
     rpm=maxRPM;
 
 }
+    
+// Démultiplication boîte réaliste
+
+const gearRatio = {
+
+    1: 0.45,
+    2: 0.65,
+    3: 0.85,
+    4: 1.05,
+    5: 1.25,
+    6: 1.45
+
+};
 
 
 
+let ratio = gearRatio[gear];
 
-
-// Si une vitesse est engagée
-
-if(gear !== "N"){
-
-
-    let ratio = gear;
-
-
-    speed = rpm / (80 * ratio);
-
-
+speed = rpm * ratio / 10;
 
 }
 
