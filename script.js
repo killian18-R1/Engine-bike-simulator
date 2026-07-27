@@ -1,190 +1,228 @@
+console.log("MotoSim démarrage");
+
+
+
 let gear = "N";
 
 let rpm = 1200;
+
 let speed = 0;
 
 let gas = false;
+
 let brake = false;
 
 
-// paramètres moteur
 
 const idleRPM = 1200;
+
 const maxRPM = 14000;
 
 
-// rapports réalistes
+
 const gearbox = {
 
-    1: 0.35,
-    2: 0.55,
-    3: 0.75,
-    4: 0.95,
-    5: 1.15,
-    6: 1.35
+1:0.35,
+
+2:0.55,
+
+3:0.75,
+
+4:0.95,
+
+5:1.15,
+
+6:1.35
 
 };
 
 
 
-// =================
+
+
+function updateDisplay(){
+
+
+document.getElementById("rpm").innerHTML =
+Math.round(rpm);
+
+
+document.getElementById("speed").innerHTML =
+Math.round(speed);
+
+
+document.getElementById("gear").innerHTML =
+gear;
+
+
+}
+
+
+
+
+
+
 // GAZ
-// =================
 
-const gasButton = document.getElementById("gas");
-
-
-gasButton.onmousedown = () => {
-    gas = true;
-};
+let gasButton =
+document.getElementById("gas");
 
 
-gasButton.onmouseup = () => {
-    gas = false;
-};
 
+gasButton.onpointerdown=function(){
 
-gasButton.ontouchstart = (e)=>{
-
-    e.preventDefault();
-
-    gas=true;
-
-};
-
-
-gasButton.ontouchend = ()=>{
-
-    gas=false;
+gas=true;
 
 };
 
 
 
-// =================
+gasButton.onpointerup=function(){
+
+gas=false;
+
+};
+
+
+
+gasButton.onpointerleave=function(){
+
+gas=false;
+
+};
+
+
+
+
+
+
+
 // FREIN
-// =================
 
 
-const brakeButton = document.getElementById("brake");
+let brakeButton =
+document.getElementById("brake");
 
 
-brakeButton.onmousedown=()=>{
 
-    brake=true;
+brakeButton.onpointerdown=function(){
 
-};
-
-
-brakeButton.onmouseup=()=>{
-
-    brake=false;
+brake=true;
 
 };
 
 
 
-brakeButton.ontouchstart=()=>{
+brakeButton.onpointerup=function(){
 
-    brake=true;
+brake=false;
 
 };
 
 
-brakeButton.ontouchend=()=>{
 
-    brake=false;
+brakeButton.onpointerleave=function(){
+
+brake=false;
 
 };
 
 
 
 
-// =================
-// RAPPORT +
-// =================
+
+
+// PLUS
 
 
 document.getElementById("plus").onclick=function(){
 
 
-    if(gas){
+if(gas){
 
-        return;
+return;
 
-    }
-
-
-    if(gear==="N"){
-
-        gear=1;
-
-    }
-
-    else if(gear<6){
-
-        gear++;
-
-    }
+}
 
 
-    rpm -= 1500;
+
+if(gear==="N"){
+
+gear=1;
+
+}
+
+else if(gear<6){
+
+gear++;
+
+}
 
 
-    if(rpm < idleRPM){
 
-        rpm=idleRPM;
-
-    }
+rpm=rpm-1000;
 
 
-    updateDisplay();
+if(rpm<idleRPM){
+
+rpm=idleRPM;
+
+}
+
+
+updateDisplay();
+
 
 };
 
 
 
 
-// =================
-// RAPPORT -
-// =================
+
+
+
+// MOINS
 
 
 document.getElementById("minus").onclick=function(){
 
 
-    if(gas){
+if(gas){
 
-        return;
+return;
 
-    }
-
-
-
-    if(gear===1){
-
-        gear="N";
-
-    }
-
-    else if(gear>1){
-
-        gear--;
-
-    }
+}
 
 
-    rpm -= 1000;
 
 
-    if(rpm < idleRPM){
+if(gear===1){
 
-        rpm=idleRPM;
+gear="N";
 
-    }
+}
+
+else if(gear>1){
+
+gear--;
+
+}
 
 
-    updateDisplay();
+
+rpm=rpm-700;
+
+
+if(rpm<idleRPM){
+
+rpm=idleRPM;
+
+}
+
+
+
+updateDisplay();
+
 
 };
 
@@ -192,20 +230,19 @@ document.getElementById("minus").onclick=function(){
 
 
 
-// =================
+
+
 // MOTEUR
-// =================
 
 
-setInterval(()=>{
+setInterval(function(){
 
 
-// montée régime
 
 if(gas){
 
 
-    rpm += 300;
+rpm +=300;
 
 
 }
@@ -213,7 +250,7 @@ if(gas){
 else{
 
 
-    rpm -= 150;
+rpm -=150;
 
 
 }
@@ -221,59 +258,53 @@ else{
 
 
 
-// ralenti
 
-if(rpm < idleRPM){
+if(rpm<idleRPM){
 
-    rpm = idleRPM;
-
-}
-
-
-
-// rupteur
-
-if(rpm > maxRPM){
-
-    rpm=maxRPM;
+rpm=idleRPM;
 
 }
 
 
 
+if(rpm>maxRPM){
+
+rpm=maxRPM;
+
+}
 
 
-// calcul vitesse
 
 
-if(gear !== "N"){
+
+if(gear!=="N"){
 
 
-    let ratio = gearbox[gear];
+
+let target =
+rpm * gearbox[gear] / 10;
 
 
-    let targetSpeed = rpm * ratio / 10;
 
+if(speed<target){
 
-    if(speed < targetSpeed){
+speed+=1;
 
-        speed += 1.5;
+}
 
-    }
+else{
 
-    else{
+speed-=0.2;
 
-        speed -=0.5;
-
-    }
-
+}
 
 
 }
+
 else{
 
 
-    speed=0;
+speed=0;
 
 
 }
@@ -282,31 +313,24 @@ else{
 
 
 
-// frein
 
 if(brake){
 
-    speed -=3;
+
+speed-=3;
+
 
 }
 
-
-
-// frein moteur
-
-if(!gas && !brake && gear!=="N"){
-
-    speed -=0.05;
-
-}
 
 
 
 if(speed<0){
 
-    speed=0;
+speed=0;
 
 }
+
 
 
 
@@ -320,16 +344,10 @@ updateDisplay();
 
 
 
-function updateDisplay(){
 
 
-document.getElementById("rpm").innerHTML=Math.round(rpm);
+document.getElementById("status").innerHTML =
+"STATUS : OK";
 
 
-document.getElementById("speed").innerHTML=Math.round(speed);
-
-
-document.getElementById("gear").innerHTML=gear;
-
-
-}
+updateDisplay();
