@@ -1,4 +1,4 @@
-console.log("MotoSim démarrage");
+console.log("MotoSim V0.1.0-a5 chargé");
 
 
 
@@ -8,9 +8,13 @@ let rpm = 1200;
 
 let speed = 0;
 
+
 let gas = false;
 
 let brake = false;
+
+
+let limiter = false;
 
 
 
@@ -20,19 +24,21 @@ const maxRPM = 14000;
 
 
 
-const gearbox = {
+// vitesse maximale par rapport
 
-1:0.35,
+const maxSpeed = {
 
-2:0.55,
+1:90,
 
-3:0.75,
+2:130,
 
-4:0.95,
+3:170,
 
-5:1.15,
+4:220,
 
-6:1.35
+5:260,
+
+6:300
 
 };
 
@@ -40,32 +46,12 @@ const gearbox = {
 
 
 
-function updateDisplay(){
+// ======================
+// COMMANDES GAZ
+// ======================
 
 
-document.getElementById("rpm").innerHTML =
-Math.round(rpm);
-
-
-document.getElementById("speed").innerHTML =
-Math.round(speed);
-
-
-document.getElementById("gear").innerHTML =
-gear;
-
-
-}
-
-
-
-
-
-
-// GAZ
-
-let gasButton =
-document.getElementById("gas");
+const gasButton = document.getElementById("gas");
 
 
 
@@ -96,11 +82,12 @@ gas=false;
 
 
 
-
+// ======================
 // FREIN
+// ======================
 
 
-let brakeButton =
+const brakeButton =
 document.getElementById("brake");
 
 
@@ -132,7 +119,9 @@ brake=false;
 
 
 
-// PLUS
+// ======================
+// RAPPORT +
+ // ======================
 
 
 document.getElementById("plus").onclick=function(){
@@ -160,7 +149,8 @@ gear++;
 
 
 
-rpm=rpm-1000;
+rpm -= 2500;
+
 
 
 if(rpm<idleRPM){
@@ -168,6 +158,7 @@ if(rpm<idleRPM){
 rpm=idleRPM;
 
 }
+
 
 
 updateDisplay();
@@ -181,7 +172,9 @@ updateDisplay();
 
 
 
-// MOINS
+// ======================
+// RAPPORT -
+ // ======================
 
 
 document.getElementById("minus").onclick=function(){
@@ -192,7 +185,6 @@ if(gas){
 return;
 
 }
-
 
 
 
@@ -210,7 +202,8 @@ gear--;
 
 
 
-rpm=rpm-700;
+rpm-=1500;
+
 
 
 if(rpm<idleRPM){
@@ -232,71 +225,113 @@ updateDisplay();
 
 
 
+// ======================
 // MOTEUR
+// ======================
 
 
 setInterval(function(){
 
 
 
-if(gas){
+// accélération moteur
 
 
-rpm +=300;
+if(gas && !limiter){
 
 
-}
-
-else{
-
-
-rpm -=150;
+rpm += 350;
 
 
 }
 
 
 
+// décélération
 
 
-if(rpm<idleRPM){
+if(!gas){
 
-rpm=idleRPM;
+
+rpm -=180;
+
 
 }
 
 
 
-if(rpm>maxRPM){
+
+
+// ralenti
+
+
+if(rpm < idleRPM){
+
+rpm = idleRPM;
+
+}
+
+
+
+
+
+
+// rupteur
+
+
+if(rpm >= maxRPM){
+
 
 rpm=maxRPM;
 
+
+limiter=true;
+
+
 }
 
 
 
 
 
-if(gear!=="N"){
+if(rpm < 13000){
 
-
-
-let target =
-rpm * gearbox[gear] / 10;
-
-
-
-if(speed<target){
-
-speed+=1;
+limiter=false;
 
 }
 
-else{
 
-speed-=0.2;
+
+
+
+
+
+
+// vitesse
+
+
+if(gear !== "N"){
+
+
+
+let targetSpeed =
+(rpm / maxRPM) * maxSpeed[gear];
+
+
+
+
+if(speed < targetSpeed){
+
+speed +=0.8;
 
 }
+
+else if(speed > targetSpeed){
+
+speed -=0.3;
+
+}
+
 
 
 }
@@ -312,6 +347,10 @@ speed=0;
 
 
 
+
+
+
+// frein
 
 
 if(brake){
@@ -342,6 +381,28 @@ updateDisplay();
 
 
 
+
+
+
+
+function updateDisplay(){
+
+
+document.getElementById("rpm").innerHTML =
+Math.round(rpm);
+
+
+
+document.getElementById("speed").innerHTML =
+Math.round(speed);
+
+
+
+document.getElementById("gear").innerHTML =
+gear;
+
+
+}
 
 
 
