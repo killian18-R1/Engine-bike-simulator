@@ -1,86 +1,143 @@
 let gear = "N";
 
 let rpm = 1200;
-
 let speed = 0;
 
 let gas = false;
-
 let brake = false;
 
 
-// Limites moteur
+// paramètres moteur
 
 const idleRPM = 1200;
-
 const maxRPM = 14000;
 
 
+// rapports réalistes
+const gearbox = {
 
-// Bouton gaz appuyé
+    1: 0.35,
+    2: 0.55,
+    3: 0.75,
+    4: 0.95,
+    5: 1.15,
+    6: 1.35
 
-document.getElementById("gas").onmousedown = function(){
+};
 
+
+
+// =================
+// GAZ
+// =================
+
+const gasButton = document.getElementById("gas");
+
+
+gasButton.onmousedown = () => {
     gas = true;
-
 };
 
 
-// Relâchement gaz
-
-document.getElementById("gas").onmouseup = function(){
-
+gasButton.onmouseup = () => {
     gas = false;
-
 };
 
 
-// Compatibilité téléphone
-
-document.getElementById("gas").ontouchstart = function(e){
+gasButton.ontouchstart = (e)=>{
 
     e.preventDefault();
 
-    gas = true;
+    gas=true;
 
 };
 
 
-document.getElementById("gas").ontouchend = function(){
+gasButton.ontouchend = ()=>{
 
-    gas = false;
+    gas=false;
+
+};
+
+
+
+// =================
+// FREIN
+// =================
+
+
+const brakeButton = document.getElementById("brake");
+
+
+brakeButton.onmousedown=()=>{
+
+    brake=true;
+
+};
+
+
+brakeButton.onmouseup=()=>{
+
+    brake=false;
+
+};
+
+
+
+brakeButton.ontouchstart=()=>{
+
+    brake=true;
+
+};
+
+
+brakeButton.ontouchend=()=>{
+
+    brake=false;
 
 };
 
 
 
 
+// =================
+// RAPPORT +
+// =================
 
-// Passage vitesse +
 
 document.getElementById("plus").onclick=function(){
 
 
-if(gas){
+    if(gas){
 
-    return;
-
-}
-
-
-    if(gear === "N"){
-
-        gear = 1;
+        return;
 
     }
 
-    else if(gear < 6){
+
+    if(gear==="N"){
+
+        gear=1;
+
+    }
+
+    else if(gear<6){
 
         gear++;
 
     }
 
 
+    rpm -= 1500;
+
+
+    if(rpm < idleRPM){
+
+        rpm=idleRPM;
+
+    }
+
+
     updateDisplay();
 
 };
@@ -88,31 +145,45 @@ if(gas){
 
 
 
-// Passage vitesse -
+// =================
+// RAPPORT -
+// =================
+
 
 document.getElementById("minus").onclick=function(){
 
 
-if(gas){
+    if(gas){
 
-    return;
+        return;
 
-}
+    }
 
 
-    if(gear === 1){
+
+    if(gear===1){
 
         gear="N";
 
     }
 
-    else if(gear > 1){
+    else if(gear>1){
 
         gear--;
 
     }
 
 
+    rpm -= 1000;
+
+
+    if(rpm < idleRPM){
+
+        rpm=idleRPM;
+
+    }
+
+
     updateDisplay();
 
 };
@@ -121,56 +192,24 @@ if(gas){
 
 
 
-
-// Frein
-
-document.getElementById("brake").onmousedown=function(){
-
-    brake=true;
-
-};
+// =================
+// MOTEUR
+// =================
 
 
-document.getElementById("brake").onmouseup=function(){
-
-    brake=false;
-
-};
+setInterval(()=>{
 
 
-
-document.getElementById("brake").ontouchstart=function(){
-
-    brake=true;
-
-};
-
-
-document.getElementById("brake").ontouchend=function(){
-
-    brake=false;
-
-};
-
-
-
-
-
-// Boucle moteur
-
-setInterval(function(){
-
-
-
-// Gestion gaz
+// montée régime
 
 if(gas){
 
 
-    rpm += 250;
+    rpm += 300;
 
 
 }
+
 else{
 
 
@@ -181,7 +220,8 @@ else{
 
 
 
-// Retour ralenti
+
+// ralenti
 
 if(rpm < idleRPM){
 
@@ -191,68 +231,82 @@ if(rpm < idleRPM){
 
 
 
-// Rupteur
+// rupteur
 
 if(rpm > maxRPM){
 
     rpm=maxRPM;
 
 }
-    
-// Démultiplication boîte réaliste
-
-const gearRatio = {
-
-    1: 0.45,
-    2: 0.65,
-    3: 0.85,
-    4: 1.05,
-    5: 1.25,
-    6: 1.45
-
-};
-
-
-
-let ratio = gearRatio[gear];
-
-speed = rpm * ratio / 10;
-
-}
-
-
-// Neutre
-
-else{
-
-
-    speed = 0;
-
-
-}
 
 
 
 
 
-// Frein
-
-if(brake){
+// calcul vitesse
 
 
-    speed -= 5;
+if(gear !== "N"){
 
 
-    if(speed < 0){
+    let ratio = gearbox[gear];
 
-        speed = 0;
+
+    let targetSpeed = rpm * ratio / 10;
+
+
+    if(speed < targetSpeed){
+
+        speed += 1.5;
+
+    }
+
+    else{
+
+        speed -=0.5;
 
     }
 
 
+
+}
+else{
+
+
+    speed=0;
+
+
 }
 
 
+
+
+
+// frein
+
+if(brake){
+
+    speed -=3;
+
+}
+
+
+
+// frein moteur
+
+if(!gas && !brake && gear!=="N"){
+
+    speed -=0.05;
+
+}
+
+
+
+if(speed<0){
+
+    speed=0;
+
+}
 
 
 
@@ -261,8 +315,6 @@ updateDisplay();
 
 
 },50);
-
-
 
 
 
