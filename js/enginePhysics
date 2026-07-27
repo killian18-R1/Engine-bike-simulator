@@ -2,94 +2,67 @@
 ====================================
 MotoSim
 Engine Physics
-Version 0.2.0-a5
+Version 0.2.0-a5.1
 ====================================
 */
-
-
-const enginePhysics = {
-
-
-    inertia:0.08,
-
-    drag:0.015,
-
-
-    torqueCurve(rpm){
-
-
-        if(rpm < 3000)
-
-            return 70;
-
-
-        if(rpm < 8000)
-
-            return 112;
-
-
-        if(rpm < 12000)
-
-            return 100;
-
-
-        return 80;
-
-
-    }
-
-
-
-};
-
 
 
 function updateEnginePhysics(){
 
 
-
     let throttle = gas ? 1 : 0;
 
 
-
-    let torque =
-
-    enginePhysics.torqueCurve(rpm)
-
-    *
-
-    throttle;
-
-
-
-    let ratio = getGearRatio();
+    let currentGear = gearbox.gear;
 
 
 
     /*
-    Pas de rapport = moteur libre
+    ==============================
+    Moteur au neutre
+    ==============================
     */
 
 
-    if(ratio===0){
+    if(currentGear === 0){
 
 
-        rpm +=
+        if(throttle){
 
-        torque *
 
-        0.5;
+            rpm += 250;
+
+
+        }
+
+        else{
+
+
+            rpm -= 150;
+
+
+        }
 
 
     }
 
 
+
+    /*
+    ==============================
+    Moteur en prise
+    ==============================
+    */
+
+
     else{
 
 
-        /*
-        Charge transmission
-        */
+        let ratio = getGearRatio();
+
+
+        let torque = getEngineTorque(rpm);
+
 
 
         let load =
@@ -98,46 +71,70 @@ function updateEnginePhysics(){
 
         ratio *
 
-        0.15;
+        0.2;
 
 
 
-        rpm +=
+        let acceleration =
 
-        (torque - load)
+        (torque - load);
 
-        /
 
-        enginePhysics.inertia;
 
+        rpm += acceleration;
 
     }
 
 
 
 
-
     /*
-    frein moteur
+    ==============================
+    Limites
+    ==============================
     */
-
-
-    if(!gas)
-
-        rpm -= 300;
-
-
 
 
     if(rpm < 1200)
 
-        rpm=1200;
+        rpm = 1200;
 
 
 
     if(rpm > 14000)
 
-        rpm=14000;
+        rpm = 14000;
+
+
+}
+
+
+
+
+
+
+function getEngineTorque(rpm){
+
+
+    if(rpm < 3000)
+
+        return 70;
+
+
+
+    if(rpm < 8000)
+
+        return 112;
+
+
+
+    if(rpm < 12000)
+
+        return 100;
+
+
+
+    return 80;
 
 
 }
