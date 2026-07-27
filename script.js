@@ -1,72 +1,75 @@
-console.log("MotoSim A7");
+console.log("MotoSim V0.1.0-a7.1");
 
 
-// PARAMETRES
+// ======================
+// PARAMETRES MOTO
+// ======================
 
 
 const bike={
 
 mass:250,
 
-maxTorque:112,
+maxTorque:125,
 
-idleRPM:1200,
+maxRPM:14000,
 
-maxRPM:14000
+idleRPM:1200
 
 };
 
 
+
+// boîte corrigée
 
 const ratios={
 
-1:2.6,
+1:3.00,
 
-2:1.9,
+2:2.05,
 
-3:1.5,
+3:1.60,
 
-4:1.25,
+4:1.35,
 
-5:1.1,
+5:1.15,
 
-6:0.95
+6:1.00
 
 };
+
 
 
 
 let gear="N";
 
-
 let rpm=1200;
-
 
 let speed=0;
 
 
 let gas=false;
 
-
 let brake=false;
 
 
 let shifterUp=false;
 
-
 let shifterDown=false;
 
 
-let cutTimer=0;
+let shiftCut=0;
 
 
 
 
 
+// ======================
 // COMMANDES
+// ======================
 
 
-gasBtn=document.getElementById("gas");
+const gasBtn=document.getElementById("gas");
 
 
 gasBtn.onpointerdown=()=>gas=true;
@@ -79,7 +82,7 @@ gasBtn.onpointerleave=()=>gas=false;
 
 
 
-brakeBtn=document.getElementById("brake");
+const brakeBtn=document.getElementById("brake");
 
 
 brakeBtn.onpointerdown=()=>brake=true;
@@ -92,37 +95,68 @@ brakeBtn.onpointerleave=()=>brake=false;
 
 
 
+
+// ======================
 // SHIFTERS
+// ======================
 
 
-document.getElementById("shiftUp").onclick=function(){
+const upBtn=document.getElementById("shiftUp");
+
+const downBtn=document.getElementById("shiftDown");
+
+
+
+upBtn.onclick=function(){
 
 shifterUp=!shifterUp;
 
-this.innerHTML=
-"SHIFTER UP "+
-(shifterUp?"ON":"OFF");
+updateButtons();
 
 };
 
 
 
-
-document.getElementById("shiftDown").onclick=function(){
+downBtn.onclick=function(){
 
 shifterDown=!shifterDown;
 
-this.innerHTML=
-"SHIFTER DOWN "+
-(shifterDown?"ON":"OFF");
+updateButtons();
 
 };
 
 
 
+function updateButtons(){
 
 
+upBtn.innerHTML =
+(shifterUp ? "🟢 SHIFTER UP ON" : "🔴 SHIFTER UP OFF");
+
+
+downBtn.innerHTML =
+(shifterDown ? "🟢 SHIFTER DOWN ON" : "🔴 SHIFTER DOWN OFF");
+
+
+
+upBtn.className =
+shifterUp ? "shifter-on" : "shifter-off";
+
+
+downBtn.className =
+shifterDown ? "shifter-on" : "shifter-off";
+
+
+}
+
+
+
+
+
+// ======================
 // RAPPORT +
+ // ======================
+
 
 document.getElementById("plus").onclick=function(){
 
@@ -145,7 +179,7 @@ gear++;
 
 if(shifterUp){
 
-cutTimer=5;
+shiftCut=5;
 
 }
 
@@ -155,9 +189,12 @@ cutTimer=5;
 
 
 
-//
+
+
+
+// ======================
 // RAPPORT -
-//
+ // ======================
 
 
 document.getElementById("minus").onclick=function(){
@@ -173,7 +210,6 @@ if(gear>1)
 
 gear--;
 
-
 else
 
 gear="N";
@@ -182,9 +218,10 @@ gear="N";
 
 if(shifterDown){
 
-rpm+=2500;
+rpm+=3500;
 
 }
+
 
 
 };
@@ -194,8 +231,9 @@ rpm+=2500;
 
 
 
-
+// ======================
 // PHYSIQUE
+// ======================
 
 
 setInterval(()=>{
@@ -206,15 +244,15 @@ let torque=0;
 
 
 
-if(gas && cutTimer<=0){
+if(gas && shiftCut===0){
 
 
-let powerFactor =
-1-(rpm/14000)*0.4;
+let rpmFactor=rpm/bike.maxRPM;
 
 
 torque =
-bike.maxTorque*powerFactor;
+bike.maxTorque *
+(1-rpmFactor*0.45);
 
 
 }
@@ -222,28 +260,30 @@ bike.maxTorque*powerFactor;
 
 
 
-if(cutTimer>0){
+if(shiftCut>0){
 
-cutTimer--;
+shiftCut--;
 
 }
 
 
 
 
-
-// acceleration
-
+// moteur
 
 if(gear!=="N"){
 
 
+
 let force =
-torque*ratios[gear];
+torque *
+ratios[gear];
+
 
 
 speed +=
-(force/bike.mass)*0.05;
+(force/bike.mass)*0.08;
+
 
 
 }
@@ -252,20 +292,23 @@ speed +=
 
 
 
-// air
 
 
-speed -=
-speed*0.002;
+// résistance
+
+speed -= speed*0.0015;
 
 
 
-// frein
 
 
-if(brake)
 
-speed-=1;
+if(brake){
+
+speed-=2;
+
+}
+
 
 
 
@@ -278,28 +321,29 @@ speed=0;
 
 
 
-// RPM MECANIQUE
+
+// RPM mécanique
 
 
 if(gear!=="N"){
 
 
 rpm =
-1200+
-speed*
-ratios[gear]*
-35;
+1200 +
+(speed *
+ratios[gear] *
+95);
+
 
 
 }
-
 
 else{
 
 
 if(gas)
 
-rpm+=300;
+rpm+=250;
 
 else
 
@@ -311,17 +355,18 @@ rpm-=150;
 
 
 
-// limites
+
+
+
+if(rpm>14000)
+
+rpm=14000;
 
 
 if(rpm<1200)
 
 rpm=1200;
 
-
-if(rpm>14000)
-
-rpm=14000;
 
 
 
@@ -331,6 +376,8 @@ update();
 
 
 },50);
+
+
 
 
 
@@ -352,7 +399,6 @@ document.getElementById("gear").innerHTML=
 gear;
 
 
-
 document.getElementById("status").innerHTML=
 
 "STATUS OK | UP:"+
@@ -365,5 +411,7 @@ document.getElementById("status").innerHTML=
 }
 
 
+
+updateButtons();
 
 update();
