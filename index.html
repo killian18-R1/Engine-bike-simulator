@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
@@ -7,7 +8,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MotoSim</title>
+<title>MotoSim V0.2.0</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -21,7 +22,7 @@
 
 
 <div id="status">
-STATUS : INIT
+STATUS INIT
 </div>
 
 
@@ -31,11 +32,11 @@ STATUS : INIT
 
 <div class="gauge">
 
-<div class="label">
+<div class="title">
 VITESSE
 </div>
 
-<div class="number">
+<div class="value">
 
 <span id="speed">0</span>
 
@@ -50,24 +51,20 @@ km/h
 
 
 
-<div class="gear-area">
+<div class="gearBox">
 
 
-<button id="minus" class="shift">
+<button id="minus">
 -
 </button>
 
 
-<div class="gear">
-
-<span id="gear">
+<div id="gear">
 N
-</span>
-
 </div>
 
 
-<button id="plus" class="shift">
+<button id="plus">
 +
 </button>
 
@@ -79,11 +76,13 @@ N
 
 <div class="gauge">
 
-<div class="label">
+
+<div class="title">
 RPM
 </div>
 
-<div class="number">
+
+<div class="value">
 
 <span id="rpm">
 1200
@@ -94,6 +93,7 @@ tr/min
 </small>
 
 </div>
+
 
 </div>
 
@@ -106,6 +106,7 @@ tr/min
 
 <div class="controls">
 
+
 <button id="brake">
 BRAKE
 </button>
@@ -115,6 +116,7 @@ BRAKE
 GAZ
 </button>
 
+
 </div>
 
 
@@ -123,13 +125,17 @@ GAZ
 <div class="assist">
 
 
-<button id="shiftUp" class="shifter-off">
+<button id="shiftUp" class="off">
+
 🔴 SHIFTER UP OFF
+
 </button>
 
 
-<button id="shiftDown" class="shifter-off">
+<button id="shiftDown" class="off">
+
 🔴 SHIFTER DOWN OFF
+
 </button>
 
 
@@ -140,20 +146,13 @@ GAZ
 
 <div id="version">
 
-MotoSim V0.2.0-a2
+MotoSim V0.2.0-a2.1
 
 </div>
 
 
-<script src="js/gameState.js"></script>
-<script src="js/bikeLoader.js"></script>
-<script src="js/engine.js"></script>
-<script src="js/gearbox.js"></script>
-<script src="js/physics.js"></script>
-<script src="js/controls.js"></script>
-<script src="js/dashboard.js"></script>
-<script src="js/utils.js"></script>
-<script src="js/main.js"></script>
+
+<script src="script.js"></script>
 
 
 </body>
