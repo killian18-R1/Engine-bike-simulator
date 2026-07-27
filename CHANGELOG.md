@@ -2,32 +2,29 @@
 
 Toutes les évolutions du projet MotoSim sont consignées ici.
 
----
-
-# Version 0.1.0
+# Version 0.1.0-a1
 Date : 27/07/2026
+
 
 ## Ajouts
 
-- Première interface jouable
+- Nouveau tableau de bord MotoSim
+- Cadran vitesse
+- Cadran RPM
+- Affichage rapport engagé
+- Boutons changement de vitesse + et -
 - Bouton Gaz
 - Bouton Brake
-- Passage des rapports
-- Affichage du rapport engagé
-- Affichage de la vitesse
-- Affichage du régime moteur
-- Nouveau tableau de bord
-- Affichage du numéro de version
+- Affichage numéro de version
 
-## Modifications
 
-- Restructuration complète de l'interface
+## Limites connues
 
-## Bugs connus
-
+- Pas encore de simulation moteur réelle
+- Pas encore de vitesse automatique
 - Pas encore de compteur analogique
-- Physique moteur simplifiée
-- Pas de son moteur
+- Pas encore de son moteur
+
 
 ---
 
