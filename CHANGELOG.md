@@ -2,6 +2,37 @@
 
 Toutes les évolutions du projet MotoSim sont consignées ici.
 
+# Version 0.1.0-a6
+Date : 28/07/2026
+
+
+## Ajouts
+
+- Premier modèle moteur physique
+- Liaison mécanique vitesse / RPM
+- Simulation couple moteur
+- Simulation masse véhicule
+- Résistance aérodynamique
+- Transmission par rapports
+
+
+## Améliorations
+
+- Suppression du modèle vitesse artificiel
+- Accélération dépendante du moteur
+- Comportement plus proche d'une moto réelle
+
+
+## Limites connues
+
+- Pas d'embrayage
+- Pas de patinage
+- Pas de courbe moteur réelle
+- Pas encore de frein moteur complet
+
+
+---
+
 # Version 0.1.0-a5
 Date : 28/07/2026
 
