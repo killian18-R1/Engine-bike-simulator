@@ -2,6 +2,35 @@
 
 Toutes les évolutions du projet MotoSim sont consignées ici.
 
+# Version 0.1.0-a7
+
+Date : 28/07/2026
+
+
+## Ajouts
+
+- Transmission mécanique simplifiée
+- RPM dépendant de la vitesse
+- Shifter UP activable
+- Shifter DOWN activable
+- Simulation coupure moteur
+- Simulation blipper
+
+
+## Améliorations
+
+- Départ en rapport élevé corrigé
+- Rétrogradage plus réaliste
+- Meilleure cohérence vitesse / régime
+
+
+## Bugs connus
+
+- Pas d'embrayage réel
+- Pas de patinage
+- Modèle moteur simplifié
+
+
 # Version 0.1.0-a6
 Date : 28/07/2026
 
