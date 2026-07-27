@@ -2,6 +2,51 @@
 
 Toutes les évolutions du projet MotoSim sont consignées ici.
 
+# Version 0.1.0-a7.2
+
+Date : 28/07/2026
+
+
+## Correction majeure physique
+
+
+### Transmission
+
+- Nouveau calcul vitesse roue / RPM moteur
+- Ajout diamètre roue
+- Ajout transmission finale
+- Correction rapport boîte
+
+
+### Moteur
+
+- Couple moteur utilisé pour accélération
+- Courbe moteur simplifiée
+- Rupteur conservé
+
+
+### Shifters
+
+- Correction Shifter UP
+- Correction Shifter DOWN
+- Ajout logique quickshift
+- Ajout blipper rétrogradage
+
+
+## Résultat attendu
+
+- Première vitesse beaucoup plus réactive
+- RPM cohérent avec vitesse
+- Rétrogradage plus réaliste
+
+
+## Bugs connus
+
+- Pas d'embrayage
+- Pas de patinage
+- Pas de température moteur
+- Pas de son
+
 # Version 0.1.0-a7.1
 
 Date : 28/07/2026
