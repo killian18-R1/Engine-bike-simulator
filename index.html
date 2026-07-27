@@ -1,49 +1,130 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulateur Moto</title>
 
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MotoSim</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
-<div id="version">
-    MotoSim V0.0.0
-</div>
-    <body>
 
-    <h1>🏍️ Simulateur Moto</h1>
 
-    <div class="compteur">
+<body>
 
-        <div class="bloc">
-            <h2>Vitesse</h2>
-            <p><span id="vitesse">0</span> km/h</p>
+
+<h1>🏍️ MotoSim</h1>
+
+
+<div class="dashboard">
+
+
+    <!-- Cadran vitesse -->
+
+    <div class="gauge">
+
+        <div class="label">
+            VITESSE
         </div>
 
-        <div class="bloc">
-            <h2>Compte-tours</h2>
-            <p><span id="rpm">1200</span> tr/min</p>
-        </div>
-
-        <div class="bloc">
-            <h2>Rapport</h2>
-            <p><span id="rapport">N</span></p>
-        </div>
-
-        <div class="bloc">
-            <h2>Gaz</h2>
-            <p><span id="gaz">OFF</span></p>
-        </div>
-
-        <div class="bloc">
-            <h2>Frein</h2>
-            <p><span id="frein">OFF</span></p>
+        <div class="number">
+            <span id="speed">0</span>
+            <small>km/h</small>
         </div>
 
     </div>
 
-    <script src="script.js"></script>
+
+
+    <!-- Rapport -->
+
+    <div class="gear-area">
+
+
+        <button id="minus" class="shift">
+            -
+        </button>
+
+
+        <div class="gear">
+
+            <span id="gear">
+                N
+            </span>
+
+        </div>
+
+
+        <button id="plus" class="shift">
+            +
+        </button>
+
+
+    </div>
+
+
+
+    <!-- Cadran RPM -->
+
+
+    <div class="gauge">
+
+
+        <div class="label">
+            RPM
+        </div>
+
+
+        <div class="number">
+
+            <span id="rpm">
+                1200
+            </span>
+
+            <small>
+                tr/min
+            </small>
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+<div class="controls">
+
+
+<button id="brake">
+BRAKE
+</button>
+
+
+<button id="gas">
+GAZ
+</button>
+
+
+</div>
+
+
+
+<div id="version">
+MotoSim V0.1.0-a1
+</div>
+
+
+
+<script src="script.js"></script>
+
 
 </body>
+
 </html>
