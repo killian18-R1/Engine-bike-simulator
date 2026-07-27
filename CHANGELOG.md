@@ -2,6 +2,38 @@
 
 Toutes les évolutions du projet MotoSim sont consignées ici.
 
+# Version 0.1.0-a4.1
+Date : 28/07/2026
+
+
+## Correction
+
+- Correction blocage complet du moteur après A3/A4
+- Correction gestion des boutons tactiles
+- Compatibilité téléphone améliorée
+- Ajout système STATUS
+
+
+## Fonctionnalités conservées
+
+- Gaz maintenu
+- Montée RPM
+- Retour ralenti
+- Passage rapports
+- Calcul vitesse
+- Frein
+
+
+## Bugs connus
+
+- Modèle moteur simplifié
+- Pas encore de couple réel
+- Pas d'embrayage
+- Pas de son moteur
+
+
+---
+
 # Version 0.1.0-a4
 Date : 27/07/2026
 
