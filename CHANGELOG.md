@@ -2,6 +2,40 @@
 
 Toutes les évolutions du projet MotoSim sont consignées ici.
 
+# Version 0.1.0-a7.1
+
+Date : 28/07/2026
+
+
+## Corrections
+
+- Correction affichage shifter mobile
+- Ajout indication visuelle ON/OFF
+- Correction logique shifter UP
+- Correction logique shifter DOWN
+
+
+## Calibration
+
+- Nouvelle démultiplication boîte
+- Meilleure montée en régime
+- Correction première vitesse trop longue
+- Meilleure relation RPM / vitesse
+
+
+## Améliorations
+
+- Boutons shifter verts en activation
+- Boutons shifter rouges en désactivation
+
+
+## Bugs connus
+
+- Pas encore d'embrayage
+- Pas encore de patinage
+- Courbe moteur simplifiée
+- Pas de frein moteur complet
+
 # Version 0.1.0-a7
 
 Date : 28/07/2026
