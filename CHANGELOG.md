@@ -2,6 +2,32 @@
 
 Toutes les évolutions du projet MotoSim sont consignées ici.
 
+# Version 0.1.0-a4
+Date : 27/07/2026
+
+## Correction
+
+- Correction du blocage complet du moteur
+- Correction gestion des boutons
+- Correction logique rapports
+
+## Ajouts
+
+- Boîte de vitesse corrigée
+- Chute de régime au changement de rapport
+- Accélération différente selon le rapport
+- Frein moteur léger
+- Frein plus progressif
+
+## Bugs connus
+
+- Pas encore d'embrayage
+- Pas encore de couple moteur réel
+- Pas encore de vitesse maximale réaliste
+
+---
+
+
 # Version 0.1.0-a3
 Date : 27/07/2026
 
